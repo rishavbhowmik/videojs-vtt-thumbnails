@@ -1,0 +1,49 @@
+let .hh = {
+  some of <digit>;
+}
+let .mm = {
+  0 to 5;
+  <digit>;
+}
+let .ss = {
+  0 to 5;
+  <digit>;
+  option of match {
+    either {
+      ".";
+      ",";
+    }
+    some of <digit>;
+  }
+}
+
+let .hh_mm_ss_timestamp = {
+  .hh;
+  ":";
+  .mm;
+  ":";
+  .ss;
+}
+
+let .mm_ss_timestamp = {
+  .mm;
+  ":";
+  .ss;
+}
+
+either {
+  <start>;
+  <newline>;
+}
+any of <space>;
+either {
+  .hh_mm_ss_timestamp;
+  .mm_ss_timestamp;
+}
+some of <space>;
+"-->";
+some of <space>;
+either {
+  .hh_mm_ss_timestamp;
+  .mm_ss_timestamp;
+}
