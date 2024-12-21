@@ -53,11 +53,20 @@
 
   // src/videojs-seek-thumbnail.ts
   var SeekThumbnailsManager = class _SeekThumbnailsManager {
-    constructor(cues) {
+    constructor(cues, options = {}) {
       this.thumbnails = [];
       this.thumbnails = cues.map((c) => {
         const { startTime, endTime, text } = c;
-        const thumbnailURL = new URL(text);
+        let thumbnailURL;
+        if (options.spriteBaseUrl) {
+          thumbnailURL = new URL(options.spriteBaseUrl);
+          const matchXYWH = text.match(/#xywh=\d+,\d+,\d+,\d+/);
+          if (matchXYWH) {
+            thumbnailURL.hash = matchXYWH[0].substring(1);
+          }
+        } else {
+          thumbnailURL = new URL(text);
+        }
         return {
           startTime,
           endTime,

@@ -1,3 +1,15 @@
+Bundle script
+
+```sh
+./node_modules/.bin/esbuild \
+    src/videojs-seek-thumbnail.ts \
+    --bundle \
+    --minify \
+    --outfile=videojs-seek-thumbnail.js
+
+```
+
+
 # VTT Thumbnails Plugin for Video.js
 
 The VTT Thumbnails plugin is a Video.js plugin that allows you to display thumbnails from a sprite image on the progress bar of your video player.
@@ -46,11 +58,11 @@ player.vttThumbnails({
     vttData:`1
             00:00:00,000 --> 00:00:05,000
             sprite.jpg#xywh=0,0,100,67
-            
+
             2
             00:00:05,000 --> 00:00:10,000
             sprite.jpg#xywh=100,0,100,67
-            
+
             3
             00:00:10,000 --> 00:00:15,000
             sprite.jpg#xywh=200,0,100,67

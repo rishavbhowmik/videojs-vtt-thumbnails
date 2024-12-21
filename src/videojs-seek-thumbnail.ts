@@ -1,15 +1,29 @@
 import { parseWebVTT, WebVTTCue } from "./vtt-parser.ts";
 
+type SeekThumbnailsManagerOptions = {
+  spriteBaseUrl?: string
+}
+
 class SeekThumbnailsManager {
   private thumbnails: {
     startTime: number;
     endTime: number;
     thumbnailURL: URL;
   }[] = [];
-  constructor(cues: WebVTTCue[]) {
+  constructor(cues: WebVTTCue[], options: SeekThumbnailsManagerOptions = {}) {
     this.thumbnails = cues.map((c) => {
       const { startTime, endTime, text } = c;
-      const thumbnailURL = new URL(text);
+      let thumbnailURL: URL
+      if (options.spriteBaseUrl) {
+        // Legacy logic
+        thumbnailURL = new URL(options.spriteBaseUrl)
+        const matchXYWH = text.match(/#xywh=\d+,\d+,\d+,\d+/);
+        if (matchXYWH) {
+          thumbnailURL.hash = matchXYWH[0].substring(1)
+        }
+      } else {
+        thumbnailURL = new URL(text);
+      }
       return {
         startTime,
         endTime,
@@ -118,7 +132,7 @@ function registerPlugin(videojs: any) {
 (function (videojs) {
   registerPlugin(videojs);
 }) // @ts-ignore
-(videojs);
+  (videojs);
 
 // (function (videojs) {
 //     var registerPlugin = videojs.registerPlugin || videojs.plugin;
