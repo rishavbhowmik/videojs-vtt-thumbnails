@@ -1,0 +1,43 @@
+<html>
+    <head>
+        <title>Debug JS in browser</title>
+    </head>
+    <!-- <script src="bower_components/vtt.js/vtt.min.js"></script>
+    <script>
+        /**
+         * @param {string} url
+         */
+        async function openVTTFile(url) {
+            const payload = await fetch(url).then((r) => r.text());
+            // console.log(payload);
+
+            const vttParser = new WebVTT.Parser(window, WebVTT.StringDecoder());
+
+            vttParser.onregion = function (region) {
+                console.log("regin:", region);
+            };
+            vttParser.oncue = function (cue) {
+                console.log("cue:", cue.text);
+            };
+            vttParser.onflush = function (cue) {
+                console.log("Ho gaya ab packup karo");
+            };
+
+            vttParser.parse(payload);
+            vttParser.flush();
+        }
+
+        openVTTFile("./examples/parser.vtt");
+    </script> -->
+    <script src="src/w3c-webvtt.js"></script>
+    <script>
+        async function openVTTFile(url) {
+            const payload = await fetch(url).then((r) => r.text());
+            // console.log(payload);
+            const parser = new WebVTTParser();
+            const tree = parser.parse(payload, "metadata");
+            console.log(tree.cues.map(({ tree }) => tree.children[0].value));
+        }
+        openVTTFile("./examples/parser.vtt");
+    </script>
+</html>
